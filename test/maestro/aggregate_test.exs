@@ -8,7 +8,6 @@ defmodule Maestro.AggregateTest do
 
   alias DBConnection.ConnectionError
   alias Ecto.Adapters.SQL.Sandbox
-  alias HLClock.Server, as: HLCServer
   alias Maestro.Aggregate.Root
   alias Maestro.{InvalidCommandError, InvalidHandlerError}
   alias Maestro.{Repo, SampleAggregate}
@@ -21,8 +20,6 @@ defmodule Maestro.AggregateTest do
       Maestro.Store.Postgres
     )
 
-    HLCServer.start_link()
-
     :ok = Sandbox.checkout(Repo)
     Sandbox.mode(Repo, {:shared, self()})
 
@@ -31,8 +28,10 @@ defmodule Maestro.AggregateTest do
 
   describe "command/event lifecycle" do
     property "commands and events without snapshots" do
-      check all agg_id <- timestamp(),
-                coms <- commands(agg_id, max_commands: 200) do
+      check all(
+              agg_id <- timestamp(),
+              coms <- commands(agg_id, max_commands: 200)
+            ) do
         for com <- coms do
           :ok = SampleAggregate.evaluate(com)
         end

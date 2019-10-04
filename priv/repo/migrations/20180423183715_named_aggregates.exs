@@ -8,7 +8,7 @@ defmodule Maestro.Repo.Migrations.NamedAggregates do
       add(:aggregate_id, :binary, null: false)
     end
 
-    Ecto.HLClock.Migration.create_hlc_constraint(
+    EctoHLClock.Migration.create_hlc_constraint(
       :named_aggregates,
       :aggregate_id
     )

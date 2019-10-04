@@ -26,13 +26,15 @@ defmodule Maestro.InMemoryTest do
 
   describe "commit_events/1" do
     property "no conflict events are committed" do
-      check all agg_id <- timestamp(),
-                times <-
-                  uniq_list_of(
-                    timestamp(),
-                    min_length: 1,
-                    max_length: 10
-                  ) do
+      check all(
+              agg_id <- timestamp(),
+              times <-
+                uniq_list_of(
+                  timestamp(),
+                  min_length: 1,
+                  max_length: 10
+                )
+            ) do
         InMemory.reset()
 
         times
@@ -47,9 +49,11 @@ defmodule Maestro.InMemoryTest do
     end
 
     property "sequence conflicts are marked for retry" do
-      check all agg_id <- timestamp(),
-                ts0 <- timestamp(),
-                times <- uniq_list_of(timestamp(), min_length: 1) do
+      check all(
+              agg_id <- timestamp(),
+              ts0 <- timestamp(),
+              times <- uniq_list_of(timestamp(), min_length: 1)
+            ) do
         InMemory.reset()
 
         times
@@ -71,8 +75,10 @@ defmodule Maestro.InMemoryTest do
 
   describe "get_events/2" do
     property "returns empty list when no relevant events exist" do
-      check all agg_id <- timestamp(),
-                times <- uniq_list_of(timestamp()) do
+      check all(
+              agg_id <- timestamp(),
+              times <- uniq_list_of(timestamp())
+            ) do
         InMemory.reset()
 
         times
@@ -85,8 +91,10 @@ defmodule Maestro.InMemoryTest do
     end
 
     property "returns events otherwise" do
-      check all agg_id <- timestamp(),
-                times <- uniq_list_of(timestamp(), min_length: 1) do
+      check all(
+              agg_id <- timestamp(),
+              times <- uniq_list_of(timestamp(), min_length: 1)
+            ) do
         InMemory.reset()
 
         total = Enum.count(times)
@@ -111,8 +119,10 @@ defmodule Maestro.InMemoryTest do
 
   describe "commit_snapshot/1" do
     property "commits if newer" do
-      check all agg_id <- timestamp(),
-                [seq0, seq1] <- uniq_list_of(integer(1..100_000), length: 2) do
+      check all(
+              agg_id <- timestamp(),
+              [seq0, seq1] <- uniq_list_of(integer(1..100_000), length: 2)
+            ) do
         InMemory.reset()
 
         agg_id
@@ -131,8 +141,10 @@ defmodule Maestro.InMemoryTest do
 
   describe "get_snapshot/2" do
     property "retrieve if newer" do
-      check all agg_id <- timestamp(),
-                [seq0, seq1] <- uniq_list_of(integer(1..100_000), length: 2) do
+      check all(
+              agg_id <- timestamp(),
+              [seq0, seq1] <- uniq_list_of(integer(1..100_000), length: 2)
+            ) do
         InMemory.reset()
 
         agg_id

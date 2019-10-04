@@ -1,14 +1,14 @@
 defmodule Maestro.Mixfile do
   use Mix.Project
 
-  @version "0.3.4"
+  @version "0.4.0"
   @source_url "https://github.com/toniqsystems/maestro"
 
   def project do
     [
       app: :maestro,
       version: @version,
-      elixir: "~> 1.7",
+      elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -44,10 +44,10 @@ defmodule Maestro.Mixfile do
 
   defp deps do
     [
-      {:ecto, "~> 3.0"},
-      {:ecto_sql, "~> 3.0"},
+      {:ecto, "~> 3.2"},
+      {:ecto_sql, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
-      {:ecto_hlclock, "~> 0.1"},
+      {:ecto_hlclock, "~> 0.2"},
       {:jason, "~> 1.1"},
       {:mock, "~> 0.3", only: :test, runtime: false},
       {:credo, "~> 1.0", only: [:dev, :test]},

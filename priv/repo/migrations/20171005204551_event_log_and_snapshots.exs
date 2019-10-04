@@ -10,8 +10,8 @@ defmodule Maestro.Repo.Migrations.EventLogAndSnapshots do
       add :body, :map, null: false
     end
 
-    Ecto.HLClock.Migration.create_hlc_constraint(:event_log, :timestamp)
-    Ecto.HLClock.Migration.create_hlc_constraint(:event_log, :aggregate_id)
+    EctoHLClock.Migration.create_hlc_constraint(:event_log, :timestamp)
+    EctoHLClock.Migration.create_hlc_constraint(:event_log, :aggregate_id)
 
     create constraint(:event_log, :sequence, check: "sequence > 0")
     create unique_index(:event_log, [:aggregate_id, :sequence],
@@ -23,6 +23,6 @@ defmodule Maestro.Repo.Migrations.EventLogAndSnapshots do
       add :body, :map, null: false
     end
 
-    Ecto.HLClock.Migration.create_hlc_constraint(:snapshots, :aggregate_id)
+    EctoHLClock.Migration.create_hlc_constraint(:snapshots, :aggregate_id)
   end
 end

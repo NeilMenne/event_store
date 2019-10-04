@@ -9,6 +9,6 @@ defmodule Maestro.Schemas.NamedAggregate do
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "named_aggregates" do
     field(:name, :string)
-    field(:aggregate_id, Ecto.HLClock)
+    field(:aggregate_id, EctoHLClock)
   end
 end

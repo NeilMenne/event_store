@@ -15,11 +15,12 @@ defmodule Maestro.Generators do
   @max_time_size 2_147_483_647
 
   def timestamp do
-    gen all time <- integer(0..max_time()),
-            counter <- integer(0..max_counter()),
-            node_id <- integer(0..max_node()) do
-      {:ok, timestamp} = Timestamp.new(time, counter, node_id)
-      timestamp
+    gen all(
+          time <- integer(0..max_time()),
+          counter <- integer(0..max_counter()),
+          node_id <- integer(0..max_node())
+        ) do
+      Timestamp.new(time, counter, node_id)
     end
   end
 
@@ -31,12 +32,14 @@ defmodule Maestro.Generators do
     defaults = [max_commands: 10]
     [max_commands: max_commands] = Keyword.merge(defaults, opts)
 
-    gen all com_flags <-
-              list_of(
-                boolean(),
-                max_length: max_commands,
-                min_length: 1
-              ) do
+    gen all(
+          com_flags <-
+            list_of(
+              boolean(),
+              max_length: max_commands,
+              min_length: 1
+            )
+        ) do
       com_flags
       |> Enum.map(&to_command(&1, agg_id))
     end

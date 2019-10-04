@@ -26,7 +26,7 @@ defmodule Maestro.Types.Snapshot do
 
   @primary_key false
   schema "snapshots" do
-    field(:aggregate_id, Ecto.HLClock, primary_key: true)
+    field(:aggregate_id, EctoHLClock, primary_key: true)
     field(:sequence, :integer)
     field(:body, :map)
   end

@@ -40,8 +40,8 @@ defmodule Maestro.Types.Event do
 
   @primary_key false
   schema "event_log" do
-    field(:timestamp, Ecto.HLClock, primary_key: true)
-    field(:aggregate_id, Ecto.HLClock)
+    field(:timestamp, EctoHLClock, primary_key: true)
+    field(:aggregate_id, EctoHLClock)
     field(:sequence, :integer)
     field(:type, :string)
     field(:body, :map)
